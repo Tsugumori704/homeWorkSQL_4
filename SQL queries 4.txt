@@ -1,0 +1,74 @@
+-- ¹1
+SELECT s."name", t."name"
+FROM public."Group" s , public."Teachers" t;
+
+-- ¹2
+SELECT d."name"
+FROM public."Faculties" f , public."Departments" d
+WHERE d.financing > f.financing and f.id = d.facultyid;
+
+-- ¹3
+SELECT c."name", c.surname, g."name"
+FROM public."Curators" c, public."Group" g, public."GroupsCurators" gc
+WHERE c.id = gc.curatorid and g.id = gc.groupid;
+
+-- ¹4
+SELECT g."name", th."name" , th.surname
+FROM public."Group" g, public."Teachers" th,
+	 public."GroupsLectures" gl, public."Lectures" l
+WHERE g."name" = 'P107' AND g.id = gl.groupid 
+		AND th.id = l.teacherid
+		AND l.id = gl.lectureid;
+		
+-- ¹5 
+SELECT DISTINCT th."name", th.surname , d."name"
+FROM public."Group" g, public."Teachers" th,
+	 public."GroupsLectures" gl, public."Lectures" l, 
+	 public."Departments" d
+WHERE d.id = g.departmentid AND g.id = gl.groupid AND l.id = gl.lectureid
+AND th.id = l.teacherid;
+
+-- ¹6
+SELECT d."name", g."name"
+FROM public."Departments" d, public."Group" g
+WHERE d.id = g.departmentid
+;
+
+-- ¹7
+SELECT s."name"
+FROM public."Teachers" th, public."Lectures" l, public."Subjects" s
+WHERE th."name" = 'Samantha' AND th.surname = 'Adams' AND s.id = l.subjectid
+AND l.teacherid = th.id
+;
+
+-- ¹8
+SELECT d."name"
+FROM public."Group" g, public."Subjects" s,
+	 public."GroupsLectures" gl, public."Lectures" l, 
+	 public."Departments" d
+WHERE s."name" = 'Database Teory' AND l.subjectid = s.id AND gl.lectureid = l.id
+AND gl.groupid = g.id AND g.departmentid = d.id
+;	
+
+-- ¹9
+SELECT g."name"
+FROM public."Faculties" f, public."Departments" d, public."Group" g
+WHERE f."name" = 'Computer Science' AND d.facultyid = f.id 
+		AND g.departmentid = d.id
+ORDER by g."name"
+;
+
+-- ¹10
+SELECT g."name", f."name"
+FROM public."Faculties" f, public."Departments" d, public."Group" g
+WHERE g."year" = 5 AND d.facultyid = f.id AND g.departmentid = d.id
+;
+
+-- ¹11
+SELECT th."name" ||' '|| th.surname as "FullName",
+s."name" as "Name Subject", g."name" as "Group Name"
+FROM public."Group" g,  public."GroupsLectures" gl, public."Lectures" l, 
+	public."Teachers" th, public."Subjects" s
+WHERE l.lecturesroom = 'B103' AND gl.lectureid = l.id AND gl.groupid = g.id
+AND l.subjectid = s.id AND l.teacherid = th.id
+;
